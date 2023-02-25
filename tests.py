@@ -1,3 +1,7 @@
+# Ioana A Mititean
+# Exercise 24.3: REST and JSON
+# Cupcakes
+
 from unittest import TestCase
 
 from app import app
