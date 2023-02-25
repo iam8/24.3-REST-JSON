@@ -2,6 +2,10 @@
 # Exercise 24.3: REST and JSON
 # Cupcakes
 
+"""
+Seed file for Cupcakes app - adds initial data to database.
+"""
+
 from app import app
 from models import db, Cupcake
 

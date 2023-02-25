@@ -2,6 +2,10 @@
 # Exercise 24.3: REST and JSON
 # Cupcakes
 
+"""
+Testing file for Cupcakes app.
+"""
+
 from unittest import TestCase
 
 from app import app
