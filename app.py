@@ -6,7 +6,7 @@
 Flask app for Cupcakes: route and view definitions.
 """
 
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Cupcake
@@ -20,6 +20,35 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cupcakes"
 # app.config['SQLALCHEMY_ECHO'] = True
+
+
+@app.route("/api/cupcakes")
+def get_all_cupcakes():
+    """
+    Get data about all cupcakes, as JSON.
+    """
+
+    cupcakes = Cupcake.query.all()
+    serialized = [serialize_cupcake(cupcake) for cupcake in cupcakes]
+    return jsonify(serialized)
+
+
+# HELPERS -----------------------------------------------------------------------------------------
+
+def serialize_cupcake(cupcake):
+    """
+    Serialize a cupcake SQLAlchemy object to a Python dictionary.
+    """
+
+    return {
+        "id": cupcake.id,
+        "flavor": cupcake.flavor,
+        "size": cupcake.size,
+        "rating": cupcake.rating,
+        "image": cupcake.image
+    }
+
+# -------------------------------------------------------------------------------------------------
 
 
 if __name__ == "__main__":
