@@ -6,8 +6,8 @@
 Seed file for Cupcakes app - adds initial data to database.
 """
 
-from app import app, connect_db
-from models import db, Cupcake
+from app import app
+from models import db, connect_db, Cupcake
 
 IMG1 = ("https://www.bakedbyrachel.com/wp-content/uploads/2018/01/"
         + "chocolatecupcakesccfrosting1_bakedbyrachel.jpg")
