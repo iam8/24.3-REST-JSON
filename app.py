@@ -22,6 +22,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cupcakes"
 # app.config['SQLALCHEMY_ECHO'] = True
 
 
+# ROUTES & VIEWS ----------------------------------------------------------------------------------
+
 @app.route("/api/cupcakes")
 def get_all_cupcakes():
     """
@@ -31,6 +33,19 @@ def get_all_cupcakes():
     cupcakes = Cupcake.query.all()
     serialized = [serialize_cupcake(cupcake) for cupcake in cupcakes]
     return jsonify(serialized)
+
+
+@app.route("/api/cupcakes/<int:cupcake_id>")
+def get_cupcake(cupcake_id):
+    """
+    Get data about the single cupcake with the given ID, as JSON.
+    """
+
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    serialized = serialize_cupcake(cupcake)
+    return jsonify(serialized)
+
+# -------------------------------------------------------------------------------------------------
 
 
 # HELPERS -----------------------------------------------------------------------------------------
