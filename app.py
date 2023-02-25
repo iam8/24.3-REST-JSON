@@ -6,7 +6,7 @@
 Flask app for Cupcakes: route and view definitions.
 """
 
-from flask import Flask, redirect, render_template, jsonify
+from flask import Flask, request, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Cupcake
@@ -32,7 +32,7 @@ def get_all_cupcakes():
 
     cupcakes = Cupcake.query.all()
     serialized = [serialize_cupcake(cupcake) for cupcake in cupcakes]
-    return jsonify(serialized)
+    return (jsonify(serialized), 200)
 
 
 @app.route("/api/cupcakes/<int:cupcake_id>")
@@ -43,7 +43,29 @@ def get_cupcake(cupcake_id):
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
     serialized = serialize_cupcake(cupcake)
-    return jsonify(serialized)
+    return (jsonify(serialized), 200)
+
+
+@app.route("/api/cupcakes", methods=["POST"])
+def create_cupcake():
+    """
+    Create a cupcake with flavor, size, rating and image data from the body of the request.
+
+    Return the created cupcake as JSON.
+    """
+
+    flavor = request.json["flavor"]
+    size = request.json["size"]
+    rating = request.json["rating"]
+    image = request.json["image"]
+
+    new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
+    db.session.add(new_cupcake)
+    db.session.commit()
+
+    serialized = serialize_cupcake(new_cupcake)
+    return (jsonify(serialized), 201)
+
 
 # -------------------------------------------------------------------------------------------------
 
