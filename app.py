@@ -20,3 +20,13 @@ app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cupcakes"
 # app.config['SQLALCHEMY_ECHO'] = True
+
+
+if __name__ == "__main__":
+
+    connect_db(app)
+
+    with app.app_context():
+        db.create_all()
+
+    app.run(host='127.0.0.1', port=5000, debug=True, threaded=False)
