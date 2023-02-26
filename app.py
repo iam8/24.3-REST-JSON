@@ -32,7 +32,7 @@ def get_all_cupcakes():
 
     cupcakes = Cupcake.query.all()
     serialized = [serialize_cupcake(cupcake) for cupcake in cupcakes]
-    return (jsonify(serialized), 200)
+    return (jsonify(cupcakes=serialized), 200)
 
 
 @app.route("/api/cupcakes/<int:cupcake_id>")
@@ -43,7 +43,7 @@ def get_cupcake(cupcake_id):
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
     serialized = serialize_cupcake(cupcake)
-    return (jsonify(serialized), 200)
+    return (jsonify(cupcake=serialized), 200)
 
 
 @app.route("/api/cupcakes", methods=["POST"])
@@ -64,7 +64,7 @@ def create_cupcake():
     db.session.commit()
 
     serialized = serialize_cupcake(new_cupcake)
-    return (jsonify(serialized), 201)
+    return (jsonify(cupcake=serialized), 201)
 
 
 # -------------------------------------------------------------------------------------------------
