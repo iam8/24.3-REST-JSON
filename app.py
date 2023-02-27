@@ -41,7 +41,7 @@ def get_cupcake(cupcake_id):
     Get data about the single cupcake with the given ID, as JSON.
     """
 
-    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    cupcake = db.get_or_404(Cupcake, cupcake_id)
     serialized = serialize_cupcake(cupcake)
     return (jsonify(cupcake=serialized), 200)
 
@@ -75,7 +75,7 @@ def update_cupcake(cupcake_id):
     Return the updated cupcake data as JSON.
     """
 
-    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    cupcake = db.get_or_404(Cupcake, cupcake_id)
     cupcake.flavor = request.json["flavor"]
     cupcake.size = request.json["size"]
     cupcake.rating = request.json["rating"]
