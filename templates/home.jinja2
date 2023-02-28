@@ -15,5 +15,50 @@
 
 <body>
 
+<h1>CUPCAKES</h1>
+
+{# List for displaying cupcakes #}
+<section>
+    <h3>Current Cupcakes</h3>
+
+    <ul id="all-cupcakes">
+
+    </ul>
+
+</section>
+
+{# Form for adding a new cupcake #}
+<section>
+    <h3>Add a New Cupcake</h3>
+
+    <form id="add-form" action="/api/cupcakes" method="POST">
+
+        <div>
+            <label for="flavor">Flavor:</label>
+            <input id="flavor" type="text" name="flavor" required>
+        </div>
+
+        <div>
+            <label for="size">Size:</label>
+            <input id="size" type="text" name="size" required>
+        </div>
+
+        <div>
+            <label for="rating">Rating (1-10):</label>
+            <input id="rating" type="number" min="1" max="10" name="rating" required>
+        </div>
+
+        <div>
+            <label for="image">Image URL:</label>
+            <input id="image" type="text" name="image" required>
+        </div>
+
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+
+    </form>
+</section>
+
 </body>
 </html>
