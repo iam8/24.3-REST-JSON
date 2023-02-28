@@ -6,7 +6,7 @@
 Flask app for Cupcakes: route and view definitions.
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Cupcake
@@ -22,7 +22,20 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///cupcakes"
 # app.config['SQLALCHEMY_ECHO'] = True
 
 
-# ROUTES & VIEWS ----------------------------------------------------------------------------------
+# HOMEPAGE ROUTE ---------------------------------------------------------------------------------
+
+@app.route("/")
+def display_home():
+    """
+    Display the homepage for the cupcakes app.
+    """
+
+    return render_template("home.jinja2")
+
+# -------------------------------------------------------------------------------------------------
+
+
+# API ROUTES --------------------------------------------------------------------------------------
 
 @app.route("/api/cupcakes")
 def get_all_cupcakes():
