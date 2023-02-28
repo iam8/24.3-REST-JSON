@@ -67,6 +67,10 @@ class CupcakeViewsTestCase(TestCase):
         return super().tearDown()
 
     def test_list_cupcakes(self):
+        """
+        Test that getting all cupcakes returns the correct JSON data.
+        """
+
         with app.test_client() as client:
             resp = client.get("/api/cupcakes")
 
@@ -86,6 +90,10 @@ class CupcakeViewsTestCase(TestCase):
             })
 
     def test_get_cupcake(self):
+        """
+        Test that getting a single cupcake returns the correct JSOn data.
+        """
+
         with app.test_client() as client:
             url = f"/api/cupcakes/{self.cupcake_id}"
             resp = client.get(url)
@@ -103,6 +111,10 @@ class CupcakeViewsTestCase(TestCase):
             })
 
     def test_create_cupcake(self):
+        """
+        Test that creating a new cupcake returns the correct JSON.
+        """
+
         with app.test_client() as client:
             url = "/api/cupcakes"
             resp = client.post(url, json=CUPCAKE_DATA_2)
@@ -125,3 +137,40 @@ class CupcakeViewsTestCase(TestCase):
             })
 
             self.assertEqual(Cupcake.query.count(), 2)
+
+    def test_update_cupcake(self):
+        """
+        Test that updating a cupcake returns the correct JSON data.
+        """
+
+        with app.test_client() as client:
+            resp = client.patch(f"/api/cupcakes/{self.cupcake_id}", json=CUPCAKE_DATA_2)
+            self.assertEqual(resp.status_code, 200)
+
+            data = resp.json
+
+            self.assertEqual(data, {
+                "cupcake": {
+                    "id": self.cupcake_id,
+                    "flavor": "TestFlavor2",
+                    "size": "TestSize2",
+                    "rating": 10,
+                    "image": "http://test.com/cupcake2.jpg"
+                }
+            })
+
+            self.assertEqual(Cupcake.query.count(), 1)
+
+    def test_delete_cupcake(self):
+        """
+        Test that deleting a cupcake returns the correct JSON data.
+        """
+
+        with app.test_client() as client:
+            resp = client.delete(f"/api/cupcakes/{self.cupcake_id}")
+            self.assertEqual(resp.status_code, 200)
+
+            data = resp.json
+
+            self.assertEqual(data, {"message": "Deleted"})
+            self.assertEqual(Cupcake.query.count(), 0)
