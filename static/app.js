@@ -8,7 +8,7 @@
  */
 
 // jQuery elements
-$cupcakeList = $("#all-cupcakes")
+$cupcakeSection = $("#all-cupcakes")
 $newCupcakeForm = $("#add-form");
 $flavorInput = $("#flavor");
 $sizeInput = $("#size");
@@ -19,8 +19,32 @@ $imageInput = $("#image");
 /**
  * Retrieve list of cupcakes from API and display on page.
  */
-async function updateCupcakeList() {
-    $cupcakeList.empty();
+async function updateCupcakeSection() {
+    $cupcakeSection.empty();
+    console.log("Updating cupcake list");
+
+    const getResp = await axios.get("/api/cupcakes");
+    console.log(getResp.data);
+
+    const cupcakes = getResp.data["cupcakes"];
+
+    // Display cupcake data for each cupcake on page
+    let $cupcakeData;
+    for (const cupcake of cupcakes) {
+        $cupcakeData = $(
+            `<div>
+                <img src="${cupcake["image"]}" style="width:20%">
+            </div>
+            <div style="margin-bottom:30px">
+                <b>Flavor: ${cupcake["flavor"]}</b>
+                <ul>
+                    <li>Size: ${cupcake["size"]}</li>
+                    <li>Rating: ${cupcake["rating"]}</li>
+                </ul>
+            </div>`);
+
+        $cupcakeSection.append($cupcakeData);
+    }
 }
 
 
@@ -30,23 +54,19 @@ async function updateCupcakeList() {
 async function handle_add_new_cupcake(event) {
     event.preventDefault();
 
-    console.log("Form has been submitted");
-
-    // TODO: make AJAX request to cupcakes API to add new cupcake using form data
     const flavor = $flavorInput.val();
     const size = $sizeInput.val();
     const rating = $ratingInput.val();
     const image = $imageInput.val();
 
-    await updateCupcakeList();
+    await axios.post("/api/cupcakes", { flavor, size, rating, image });
+    await updateCupcakeSection();
 
-    console.log(flavor, size, rating, image);
+    $(this).trigger("reset");
 }
 
 
 $(async function() {
-    console.log("DOM loaded");
-
-    await updateCupcakeList();
+    await updateCupcakeSection();
     $newCupcakeForm.on("submit", handle_add_new_cupcake);
 })
