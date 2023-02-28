@@ -93,7 +93,7 @@ def delete_cupcake(cupcake_id):
     Delete the cupcake with the given ID and return JSON indicating deletion success.
     """
 
-    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    cupcake = db.get_or_404(Cupcake, cupcake_id)
     db.session.delete(cupcake)
     db.session.commit()
 
