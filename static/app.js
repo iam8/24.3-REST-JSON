@@ -21,11 +21,8 @@ $imageInput = $("#image");
  */
 async function updateCupcakeSection() {
     $cupcakeSection.empty();
-    console.log("Updating cupcake list");
 
     const getResp = await axios.get("/api/cupcakes");
-    console.log(getResp.data);
-
     const cupcakes = getResp.data["cupcakes"];
 
     // Display cupcake data for each cupcake on page
