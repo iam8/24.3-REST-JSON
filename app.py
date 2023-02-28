@@ -72,6 +72,9 @@ def create_cupcake():
     rating = request.json["rating"]
     image = request.json["image"]
 
+    # Ensure default img is used if no image URL is entered in form
+    image = image if image else None
+
     new_cupcake = Cupcake(flavor=flavor, size=size, rating=rating, image=image)
     db.session.add(new_cupcake)
     db.session.commit()
